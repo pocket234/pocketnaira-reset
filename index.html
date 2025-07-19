@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Reset Password | PocketNaira</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: sans-serif;
+        background-color: #f2f4f7;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+      }
+
+      button {
+        background-color: #087f5b;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      h2 {
+        margin-bottom: 16px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Reset Password</h2>
+      <input
+        id="password"
+        type="password"
+        placeholder="Enter new password"
+      />
+      <button onclick="updatePassword()">Update Password</button>
+      <p id="status" style="text-align:center; margin-top: 12px;"></p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+      const supabase = supabase.createClient(
+        "https://qalvrwehkexnatjlwcgp.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFhbHZyd2Voa2V4bmF0amx3Y2dwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIzMTA2MTIsImV4cCI6MjA2Nzg4NjYxMn0.O5EajTvtiNdwO_VoWE99hvWLbB24vUXorvxHKvf1o0k"; 
+"
+      );
+
+      async function updatePassword() {
+        const password = document.getElementById("password").value;
+        const { error } = await supabase.auth.updateUser({ password });
+        const status = document.getElementById("status");
+        if (error) {
+          status.innerText = error.message;
+          status.style.color = "red";
+        } else {
+          status.innerText = "Password updated successfully!";
+          status.style.color = "green";
+        }
+      }
+    </script>
+  </body>
+</html>
