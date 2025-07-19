@@ -15,7 +15,6 @@
         height: 100vh;
         margin: 0;
       }
-
       .container {
         background: white;
         padding: 24px;
@@ -24,7 +23,6 @@
         max-width: 400px;
         width: 100%;
       }
-
       input {
         width: 100%;
         padding: 12px;
@@ -33,7 +31,6 @@
         border: 1px solid #ccc;
         border-radius: 8px;
       }
-
       button {
         background-color: #087f5b;
         color: white;
@@ -44,7 +41,6 @@
         cursor: pointer;
         width: 100%;
       }
-
       h2 {
         margin-bottom: 16px;
         text-align: center;
@@ -58,6 +54,7 @@
         id="password"
         type="password"
         placeholder="Enter new password"
+        autofocus
       />
       <button onclick="updatePassword()">Update Password</button>
       <p id="status" style="text-align:center; margin-top: 12px;"></p>
@@ -65,16 +62,17 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-      const supabase = supabase.createClient(
+      const { createClient } = supabase;
+      const supabaseClient = createClient(
         "https://qalvrwehkexnatjlwcgp.supabase.co",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFhbHZyd2Voa2V4bmF0amx3Y2dwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIzMTA2MTIsImV4cCI6MjA2Nzg4NjYxMn0.O5EajTvtiNdwO_VoWE99hvWLbB24vUXorvxHKvf1o0k"; 
-"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFhbHZyd2Voa2V4bmF0amx3Y2dwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIzMTA2MTIsImV4cCI6MjA2Nzg4NjYxMn0.O5EajTvtiNdwO_VoWE99hvWLbB24vUXorvxHKvf1o0k"
       );
 
       async function updatePassword() {
         const password = document.getElementById("password").value;
-        const { error } = await supabase.auth.updateUser({ password });
         const status = document.getElementById("status");
+        const { error } = await supabaseClient.auth.updateUser({ password });
+
         if (error) {
           status.innerText = error.message;
           status.style.color = "red";
